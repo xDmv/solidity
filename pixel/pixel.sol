@@ -1,11 +1,11 @@
 
 /*
-
+commentary
 
 @author ____ <___@___>
 */
 
-pragma solidity 0.4.20;
+pragma solidity ^0.4.19;
 
 
 // contract from owner and from new owner
