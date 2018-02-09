@@ -1,0 +1,133 @@
+string public standard    = "Token 0.1";
+string public name        = "BDP Technical Task";    // name your token
+string public symbol      = "BDP";                   // symvol token
+uint public pixel         = 1000000;                 // wear number, based on the fact that 1 token = 1 pixel
+
+mapping public (bytes32 => string) data;
+// need operation ???
+    uint public totalSupply;
+    function balanceOf(address who) constant returns (uint);
+    function transfer(address to, uint value);
+    function allowance(address owner, address spender) constant returns (uint);
+    function transferFrom(address from, address to, uint value);
+    function approve(address spender, uint value);
+    event Approval(address indexed owner, address indexed spender, uint value);
+    event Transfer(address indexed from, address indexed to, uint value);
+
+// реализуем первичную продажу и метода для владельца смарт контракта
+    uint public x1;
+    uint public y1;
+    uint public x2;
+    uint public y2;
+    uint public regionId;
+    uint public firstpixel = 0.001;
+
+    // возвращаем все
+    function undoAllPurchasesSince(uint regionId) public onlyOwner {
+        delete regionId;
+    }
+
+    // добовляем лот на продажу для владельца контракта
+    function addRegion(uint x1, uint y1, uint x2, uint y2) public onlyOwner {
+        regionId = (x2-x1)*(y2-y1);
+    }
+
+    // удаляе лот с продажи для владельца контракта
+    function removeRegion(uint regionId) public onlyOwner {
+        delete regionId;
+    }
+
+// first sale (первая продажа)
+    // продаем лот (регион клеток)
+    function purchase(uint regionId) public {
+
+    }
+
+    // расчитываем приблизительную цену лота
+    calculatePrice(uint regionId) constant returns uint {
+
+    }
+
+    циклы
+    Function Types
+Function types are the types of functions. Variables of function type can be assigned from functions and function parameters of function type can be used to pass functions to and return functions from function calls. Function types come in two flavours - internal and external functions:
+
+Internal functions can only be called inside the current contract (more specifically, inside the current code unit, which also includes internal library functions and inherited functions) because they cannot be executed outside of the context of the current contract. Calling an internal function is realized by jumping to its entry label, just like when calling a function of the current contract internally.
+
+External functions consist of an address and a function signature and they can be passed via and returned from external function calls.
+
+Function types are notated as follows:
+
+function (<parameter types>) {internal|external} [pure|constant|view|payable] [returns (<return types>)]
+In contrast to the parameter types, the return types cannot be empty - if the function type should not return anything, the whole returns (<return types>) part has to be omitted.
+
+By default, function types are internal, so the internal keyword can be omitted. In contrast, contract functions themselves are public by default, only when used as the name of a type, the default is internal.
+
+There are two ways to access a function in the current contract: Either directly by its name, f, or using this.f. The former will result in an internal function, the latter in an external function.
+
+If a function type variable is not initialized, calling it will result in an exception. The same happens if you call a function after using delete on it.
+
+If external function types are used outside of the context of Solidity, they are treated as the function type, which encodes the address followed by the function identifier together in a single bytes24 type.
+
+Note that public functions of the current contract can be used both as an internal and as an external function. To use f as an internal function, just use f, if you want to use its external form, use this.f.
+
+Additionally, public (or external) functions also have a special member called selector, which returns the ABI function selector:
+
+pragma solidity ^0.4.16;
+
+contract Selector {
+  function f() public view returns (bytes4) {
+    return this.f.selector;
+  }
+}
+Example that shows how to use internal function types:
+
+pragma solidity ^0.4.16;
+
+library ArrayUtils {
+  // internal functions can be used in internal library functions because
+  // they will be part of the same code context
+  function map(uint[] memory self, function (uint) pure returns (uint) f)
+    internal
+    pure
+    returns (uint[] memory r)
+  {
+    r = new uint[](self.length);
+    for (uint i = 0; i < self.length; i++) {
+      r[i] = f(self[i]);
+    }
+  }
+  function reduce(
+    uint[] memory self,
+    function (uint, uint) pure returns (uint) f
+  )
+    internal
+    pure
+    returns (uint r)
+  {
+    r = self[0];
+    for (uint i = 1; i < self.length; i++) {
+      r = f(r, self[i]);
+    }
+  }
+  function range(uint length) internal pure returns (uint[] memory r) {
+    r = new uint[](length);
+    for (uint i = 0; i < r.length; i++) {
+      r[i] = i;
+    }
+  }
+}
+
+contract Pyramid {
+  using ArrayUtils for *;
+  function pyramid(uint l) public pure returns (uint) {
+    return ArrayUtils.range(l).map(square).reduce(sum);
+  }
+  function square(uint x) internal pure returns (uint) {
+    return x * x;
+  }
+  function sum(uint x, uint y) internal pure returns (uint) {
+    return x + y;
+  }
+}
+Another example that uses external function types:
