@@ -1,3 +1,10 @@
+
+/*
+
+
+@author ____ <___@___>
+*/
+
 pragma solidity 0.4.20;
 
 
@@ -31,7 +38,7 @@ contract Bossowned {
 // contract first sale
 
 contract Firstsale is Bossowned {
-  
+
 
 }
 
