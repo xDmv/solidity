@@ -15,8 +15,9 @@ contract Bossowned {
     address public newOwner;                             // new adress owner cmart-contract
 
     string[] public regionId;                              // ид региона + его координаты
-    string[999999] public pixelcoordinat;                // координаты пикселей
-    string[999999] public ownerpixel;                    // владелец конкретног
+    string[999999] public pixelcoordinat;                  // координаты пикселей
+    string[999999] public ownerpixel;                      // владелец конкретног
+    uint public pix;                                       // считаем количество проданых пикселей
 
     function owned() public payable {
         owner = msg.sender;
@@ -36,6 +37,18 @@ contract Bossowned {
         require(newOwner == msg.sender);
         owner = newOwner;
         delete newOwner;
+    }
+
+    // для первично продажи
+    function calculatePrice1(uint regionId) constant returns uint {
+        string ss;
+        ss = regionId[regionId];
+
+    }
+
+    // для вторичной продажи
+    function calculatePrice2(uint regionId) constant returns uint {
+
     }
 }
 
@@ -76,6 +89,12 @@ contract Firstsale is Bossowned {
         присвоить возвращаем в исходное состояниие. Если все у нас хорошо и вся площадь была свободна,
         тогда ставим лот на продажу
         */
+        if (st == ploshad) {
+            regionId[regionId.length] = "x1="  + parseInt(x1, 10) + "" +x2;
+        }
+        else{
+
+        }
 
     }
 }
