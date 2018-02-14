@@ -39,17 +39,6 @@ contract Bossowned {
         delete newOwner;
     }
 
-    // для первично продажи
-    function calculatePrice1(uint regionId) constant returns uint {
-        string ss;
-        ss = regionId[regionId];
-
-    }
-
-    // для вторичной продажи
-    function calculatePrice2(uint regionId) constant returns uint {
-
-    }
 }
 
 
@@ -64,6 +53,8 @@ contract Firstsale is Bossowned {
         //uint st1;
         uint j;
         uint i;
+        string itog1;
+        string itog2;
         // проверяем свободны ли эти координаты
         // узнаем крайний левый угол будущего региона по формуле
         // это нужно чтоб правильно прогнать массив и посмотреть заняты ли пиксели
@@ -89,12 +80,15 @@ contract Firstsale is Bossowned {
         присвоить возвращаем в исходное состояниие. Если все у нас хорошо и вся площадь была свободна,
         тогда ставим лот на продажу
         */
+        itog1 = "x1=" + parseInt(x1, 10) + "x2=" + parseInt(x2, 10);
+        itog2 = itog1 + "y1=" + parseInt(y1, 10) + "y2=" + parseInt(y2, 10) + "p=" + parseInt(p, 10);
         if (st == ploshad) {
-            regionId[regionId.length] = "x1="  + parseInt(x1, 10) + "" +x2;
-        }
-        else{
-
+            regionId[regionId.length] = itog2;
         }
 
+    }
+
+    function vivodRegion(uint regionId) public constant returns (string) {
+        return regionId[regionId];
     }
 }
